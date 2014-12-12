@@ -1,0 +1,344 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3B4D91041A3A97D800FE6438 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B4D91031A3A97D800FE6438 /* Foundation.framework */; };
+		3B4D910F1A3A97D800FE6438 /* PMreally.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3B4D910E1A3A97D800FE6438 /* PMreally.mm */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3B4D91001A3A97D800FE6438 /* PMreally.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = PMreally.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4D91031A3A97D800FE6438 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3B4D91081A3A97D800FE6438 /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		3B4D91091A3A97D800FE6438 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		3B4D910B1A3A97D800FE6438 /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		3B4D910C1A3A97D800FE6438 /* PMreally-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PMreally-Prefix.pch"; sourceTree = "<group>"; };
+		3B4D910D1A3A97D800FE6438 /* PMreally.xm */ = {isa = PBXFileReference; lastKnownFileType = text; path = PMreally.xm; sourceTree = "<group>"; };
+		3B4D910E1A3A97D800FE6438 /* PMreally.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = PMreally.mm; sourceTree = "<group>"; };
+		3B4D91131A3A97D800FE6438 /* PMreally.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = PMreally.plist; path = Package/Library/MobileSubstrate/DynamicLibraries/PMreally.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3B4D90FC1A3A97D800FE6438 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B4D91041A3A97D800FE6438 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3B4D90F51A3A97D800FE6438 = {
+			isa = PBXGroup;
+			children = (
+				3B4D91051A3A97D800FE6438 /* PMreally */,
+				3B4D91021A3A97D800FE6438 /* Frameworks */,
+				3B4D91011A3A97D800FE6438 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3B4D91011A3A97D800FE6438 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91001A3A97D800FE6438 /* PMreally.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3B4D91021A3A97D800FE6438 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91031A3A97D800FE6438 /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3B4D91051A3A97D800FE6438 /* PMreally */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D910D1A3A97D800FE6438 /* PMreally.xm */,
+				3B4D910E1A3A97D800FE6438 /* PMreally.mm */,
+				3B4D91061A3A97D800FE6438 /* Package */,
+				3B4D910A1A3A97D800FE6438 /* Supporting Files */,
+			);
+			path = PMreally;
+			sourceTree = "<group>";
+		};
+		3B4D91061A3A97D800FE6438 /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91071A3A97D800FE6438 /* DEBIAN */,
+				3B4D91101A3A97D800FE6438 /* Library */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		3B4D91071A3A97D800FE6438 /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91081A3A97D800FE6438 /* control.txt */,
+				3B4D91091A3A97D800FE6438 /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		3B4D910A1A3A97D800FE6438 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D910B1A3A97D800FE6438 /* PackageVersion.plist */,
+				3B4D910C1A3A97D800FE6438 /* PMreally-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3B4D91101A3A97D800FE6438 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91111A3A97D800FE6438 /* MobileSubstrate */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
+		3B4D91111A3A97D800FE6438 /* MobileSubstrate */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91121A3A97D800FE6438 /* DynamicLibraries */,
+			);
+			name = MobileSubstrate;
+			sourceTree = "<group>";
+		};
+		3B4D91121A3A97D800FE6438 /* DynamicLibraries */ = {
+			isa = PBXGroup;
+			children = (
+				3B4D91131A3A97D800FE6438 /* PMreally.plist */,
+			);
+			name = DynamicLibraries;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3B4D90FD1A3A97D800FE6438 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		3B4D90FF1A3A97D800FE6438 /* PMreally */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3B4D91161A3A97D800FE6438 /* Build configuration list for PBXNativeTarget "PMreally" */;
+			buildPhases = (
+				3B4D90FA1A3A97D800FE6438 /* ShellScript */,
+				3B4D90FB1A3A97D800FE6438 /* Sources */,
+				3B4D90FC1A3A97D800FE6438 /* Frameworks */,
+				3B4D90FD1A3A97D800FE6438 /* Headers */,
+				3B4D90FE1A3A97D800FE6438 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PMreally;
+			productName = PMreally;
+			productReference = 3B4D91001A3A97D800FE6438 /* PMreally.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3B4D90F61A3A97D800FE6438 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				TargetAttributes = {
+					3B4D90FF1A3A97D800FE6438 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 3B4D90F91A3A97D800FE6438 /* Build configuration list for PBXProject "PMreally" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3B4D90F51A3A97D800FE6438;
+			productRefGroup = 3B4D91011A3A97D800FE6438 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3B4D90FF1A3A97D800FE6438 /* PMreally */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3B4D90FA1A3A97D800FE6438 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp-logos";
+		};
+		3B4D90FE1A3A97D800FE6438 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3B4D90FB1A3A97D800FE6438 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3B4D910F1A3A97D800FE6438 /* PMreally.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3B4D91141A3A97D800FE6438 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		3B4D91151A3A97D800FE6438 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+		3B4D91171A3A97D800FE6438 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PMreally/PMreally-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		3B4D91181A3A97D800FE6438 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PMreally/PMreally-Prefix.pch";
+				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3B4D90F91A3A97D800FE6438 /* Build configuration list for PBXProject "PMreally" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B4D91141A3A97D800FE6438 /* Debug */,
+				3B4D91151A3A97D800FE6438 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3B4D91161A3A97D800FE6438 /* Build configuration list for PBXNativeTarget "PMreally" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3B4D91171A3A97D800FE6438 /* Debug */,
+				3B4D91181A3A97D800FE6438 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3B4D90F61A3A97D800FE6438 /* Project object */;
+}

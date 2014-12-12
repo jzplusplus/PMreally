@@ -1,9 +1,9 @@
 Package: jzplusplus.PMreally
 Name: PMreally
-Version: 0.1-1
-Description: 
+Version: 1.0-1
+Description: Prompts you to confirm if you ever set an alarm for any PM time, to prevent accidentally setting your alarm to PM when you meant AM.
 Section: System
-Depends: firmware (>= 5.0), mobilesubstrate
+Depends: firmware (>= 8.0), mobilesubstrate
 Conflicts: 
 Replaces: 
 Priority: optional
@@ -13,5 +13,5 @@ dev:
 Homepage: 
 Depiction: 
 Maintainer: 
-Icon: 
+Icon:
 

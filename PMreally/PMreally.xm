@@ -4,120 +4,252 @@
 
 #include <UIKit/UIKit.h>
 
-%hook EditAlarmViewController
+%group iOS11
+    %hook MTAAlarmEditViewController
 
-- (void)_doneButtonClicked: (id)arg
-{
-    BOOL warnPM = YES;
-    BOOL warnAM = NO;
-    
-    NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
-    
-    if (plist) { // Preference file exists
-        NSNumber *pref = [plist objectForKey:@"pm"];
-        if (pref) warnPM = [pref boolValue];
-            
-        pref = [plist objectForKey:@"am"];
-        if (pref) warnAM = [pref boolValue];
-    }
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"a"];
-    NSString * ampm = [formatter stringFromDate:[[[self view] timePicker] date]];
-    [formatter release];
-    
-    if( (warnPM && [ampm characterAtIndex:0] == 'P') || (warnAM && [ampm characterAtIndex:0] == 'A') )
+    - (void)_doneButtonClicked: (id)arg
     {
-        NSString *title = [ampm stringByAppendingString:@", really?"];
-        NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+        BOOL warnPM = YES;
+        BOOL warnAM = NO;
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                                 message:msg
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
-                                                               style:UIAlertActionStyleCancel
+        if (plist) { // Preference file exists
+            NSNumber *pref = [plist objectForKey:@"pm"];
+            if (pref) warnPM = [pref boolValue];
+                
+            pref = [plist objectForKey:@"am"];
+            if (pref) warnAM = [pref boolValue];
+        }
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"a"];
+        NSString * ampm = [formatter stringFromDate:[[[self view] timePicker] date]];
+        [formatter release];
+        
+        if( (warnPM && [ampm characterAtIndex:0] == 'P') || (warnAM && [ampm characterAtIndex:0] == 'A') )
+        {
+            NSString *title = [ampm stringByAppendingString:@", really?"];
+            NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                     message:msg
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction *action)
+                                                                           {
+                                                                               %orig(arg);
+                                                                           }
+                                           ];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
+                                                               style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction *action)
-                                                                       {
-                                                                           %orig(arg);
-                                                                       }
+                                                                    {
+                                                                        NSDate *d = [[[self view] timePicker] date];
+                                                                        int offset = -43200;
+                                                                        if([ampm characterAtIndex:0] == 'A') offset = 43200;
+                                                                        d = [d dateByAddingTimeInterval: offset]; //subtract 12 hours
+                                                                        [[[self view] timePicker] setDate:d animated:YES];
+                                                                    }
                                        ];
-        
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction *action)
-                                                                {
-                                                                    NSDate *d = [[[self view] timePicker] date];
-                                                                    int offset = -43200;
-                                                                    if([ampm characterAtIndex:0] == 'A') offset = 43200;
-                                                                    d = [d dateByAddingTimeInterval: offset]; //subtract 12 hours
-                                                                    [[[self view] timePicker] setDate:d animated:YES];
-                                                                }
-                                   ];
-        
-        [alertController addAction:cancelAction];
-        [alertController addAction:okAction];
-        
-        [self presentViewController:alertController animated:YES completion:nil];
+            
+            [alertController addAction:cancelAction];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else %orig(arg);
     }
-    else %orig(arg);
-}
 
+    %end
+
+    %hook MTAAlarmTableViewController
+
+    -(void)activeChangedForAlarm:(id)arg1 active:(BOOL)arg2
+    {
+        BOOL warnPM = YES;
+        BOOL warnAM = NO;
+        BOOL warnOnSwitch = YES;
+        NSString *ampm = @"PM";
+        
+        NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
+        
+        if (plist) { // Preference file exists
+            NSNumber *pref = [plist objectForKey:@"pm"];
+            if (pref) warnPM = [pref boolValue];
+                
+            pref = [plist objectForKey:@"am"];
+            if (pref) warnAM = [pref boolValue];
+                
+            pref = [plist objectForKey:@"switching"];
+            if (pref) warnOnSwitch = [pref boolValue];
+        }
+        
+        if([arg1 hour] < 12) ampm = @"AM";
+        
+        if( warnOnSwitch && (arg2 == YES) &&
+           ( (warnPM && [arg1 hour] >= 12) || (warnAM && [arg1 hour] < 12) ))
+        {
+            NSString *title = [ampm stringByAppendingString:@", really?"];
+            NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                     message:msg
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction *action)
+                                           {
+                                               %orig(arg1, arg2);
+                                           }
+                                           ];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
+                                                               style:UIAlertActionStyleDefault
+                                                             handler:^(UIAlertAction *action){}
+                                       ];
+            
+            [alertController addAction:cancelAction];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else %orig(arg1, arg2);
+    }
+
+    %end
 %end
 
-%hook AlarmViewController
+%group iOS10
+    %hook EditAlarmViewController
 
--(void)activeChangedForAlarm:(id)arg1 active:(BOOL)arg2
-{
-    BOOL warnPM = YES;
-    BOOL warnAM = NO;
-    BOOL warnOnSwitch = YES;
-    NSString *ampm = @"PM";
-    
-    NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
-    
-    if (plist) { // Preference file exists
-        NSNumber *pref = [plist objectForKey:@"pm"];
-        if (pref) warnPM = [pref boolValue];
-            
-        pref = [plist objectForKey:@"am"];
-        if (pref) warnAM = [pref boolValue];
-            
-        pref = [plist objectForKey:@"switching"];
-        if (pref) warnOnSwitch = [pref boolValue];
-    }
-    
-    if([arg1 hour] < 12) ampm = @"AM";
-    
-    if( warnOnSwitch && (arg2 == YES) &&
-       ( (warnPM && [arg1 hour] >= 12) || (warnAM && [arg1 hour] < 12) ))
+    - (void)_doneButtonClicked: (id)arg
     {
-        NSString *title = [ampm stringByAppendingString:@", really?"];
-        NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+        BOOL warnPM = YES;
+        BOOL warnAM = NO;
         
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                                 message:msg
-                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
         
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
-                                                               style:UIAlertActionStyleCancel
+        if (plist) { // Preference file exists
+            NSNumber *pref = [plist objectForKey:@"pm"];
+            if (pref) warnPM = [pref boolValue];
+                
+                pref = [plist objectForKey:@"am"];
+                if (pref) warnAM = [pref boolValue];
+                    }
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"a"];
+        NSString * ampm = [formatter stringFromDate:[[[self view] timePicker] date]];
+        [formatter release];
+        
+        if( (warnPM && [ampm characterAtIndex:0] == 'P') || (warnAM && [ampm characterAtIndex:0] == 'A') )
+        {
+            NSString *title = [ampm stringByAppendingString:@", really?"];
+            NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                     message:msg
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
+                                                                   style:UIAlertActionStyleCancel
+                                                                 handler:^(UIAlertAction *action)
+                                           {
+                                               %orig(arg);
+                                           }
+                                           ];
+            
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
+                                                               style:UIAlertActionStyleDefault
                                                              handler:^(UIAlertAction *action)
                                        {
-                                           %orig(arg1, arg2);
+                                           NSDate *d = [[[self view] timePicker] date];
+                                           int offset = -43200;
+                                           if([ampm characterAtIndex:0] == 'A') offset = 43200;
+                                           d = [d dateByAddingTimeInterval: offset]; //subtract 12 hours
+                                           [[[self view] timePicker] setDate:d animated:YES];
                                        }
                                        ];
+            
+            [alertController addAction:cancelAction];
+            [alertController addAction:okAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+        else %orig(arg);
+            }
+
+    %end
+
+    %hook AlarmViewController
+
+    -(void)activeChangedForAlarm:(id)arg1 active:(BOOL)arg2
+    {
+        BOOL warnPM = YES;
+        BOOL warnAM = NO;
+        BOOL warnOnSwitch = YES;
+        NSString *ampm = @"PM";
         
-        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
-                                                           style:UIAlertActionStyleDefault
-                                                         handler:^(UIAlertAction *action){}
-                                   ];
+        NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:[NSHomeDirectory() stringByAppendingPathComponent:@"/Library/Preferences/jzplusplus.PMreally.plist"]];
         
-        [alertController addAction:cancelAction];
-        [alertController addAction:okAction];
+        if (plist) { // Preference file exists
+            NSNumber *pref = [plist objectForKey:@"pm"];
+            if (pref) warnPM = [pref boolValue];
+                
+                pref = [plist objectForKey:@"am"];
+                if (pref) warnAM = [pref boolValue];
+                    
+                    pref = [plist objectForKey:@"switching"];
+                    if (pref) warnOnSwitch = [pref boolValue];
+                        }
         
-        [self presentViewController:alertController animated:YES completion:nil];
+        if([arg1 hour] < 12) ampm = @"AM";
+            
+            if( warnOnSwitch && (arg2 == YES) &&
+               ( (warnPM && [arg1 hour] >= 12) || (warnAM && [arg1 hour] < 12) ))
+            {
+                NSString *title = [ampm stringByAppendingString:@", really?"];
+                NSString *msg = [@"Did you really mean to set this alarm for " stringByAppendingString:[ampm stringByAppendingString:@"?"]];
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                         message:msg
+                                                                                  preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Yes, I did."
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:^(UIAlertAction *action)
+                                               {
+                                                   %orig(arg1, arg2);
+                                               }
+                                               ];
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"Nope!"
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction *action){}
+                                           ];
+                
+                [alertController addAction:cancelAction];
+                [alertController addAction:okAction];
+                
+                [self presentViewController:alertController animated:YES completion:nil];
+            }
+            else %orig(arg1, arg2);
+                }
+
+    %end
+%end
+
+// iOS 11 changed the class names
+%ctor {
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 11.0) {
+        %init(iOS11);
+    } else {
+        %init(iOS10);
     }
-    else %orig(arg1, arg2);
 }
 
-%end
